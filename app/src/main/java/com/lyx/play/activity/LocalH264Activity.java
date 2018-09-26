@@ -78,7 +78,7 @@ public class LocalH264Activity extends Activity {
                     e.printStackTrace();
                 }
                 //初始化编码器
-                final MediaFormat mediaformat = MediaFormat.createVideoFormat("video/avc", VIDEO_WIDTH, VIDEO_HEIGHT);
+                 MediaFormat mediaformat = MediaFormat.createVideoFormat("video/avc", VIDEO_WIDTH, VIDEO_HEIGHT);
                 //获取h264中的pps及sps数据
                 if (UseSPSandPPS) {
                     byte[] header_sps = {0, 0, 0, 1, 103, 66, 0, 42, (byte) 149, (byte) 168, 30, 0, (byte) 137, (byte) 249, 102, (byte) 224, 32, 32, 32, 64};
