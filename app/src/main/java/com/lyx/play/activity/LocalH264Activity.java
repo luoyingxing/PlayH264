@@ -5,6 +5,7 @@ import android.media.MediaCodec;
 import android.media.MediaFormat;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -137,7 +138,7 @@ public class LocalH264Activity extends Activity {
             //解码后的数据，包含每一个buffer的元数据信息，例如偏差，在相关解码器中有效的数据大小
             MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
             long startMs = System.currentTimeMillis();
-            long timeoutUs = 10000;
+            long timeoutUs = 10 * 1000;
             byte[] marker0 = new byte[]{0, 0, 0, 1};
             byte[] dummyFrame = new byte[]{0x00, 0x00, 0x01, 0x20};
             byte[] streamBuffer = null;
@@ -147,8 +148,9 @@ public class LocalH264Activity extends Activity {
                 e.printStackTrace();
             }
             int bytes_cnt = 0;
-            while (mStopFlag == false) {
+            while (!mStopFlag) {
                 bytes_cnt = streamBuffer.length;
+//                Log.i("LocalH264=====>>> ", "视频总长度" + bytes_cnt);
                 if (bytes_cnt == 0) {
                     streamBuffer = dummyFrame;
                 }
@@ -179,8 +181,10 @@ public class LocalH264Activity extends Activity {
 
                     int outIndex = mCodec.dequeueOutputBuffer(info, timeoutUs);
                     if (outIndex >= 0) {
+//                        Log.w("LocalH264=====>>> ", "outIndex >= 0");
                         //帧控制是不在这种情况下工作，因为没有PTS H264是可用的
                         while (info.presentationTimeUs / 1000 > System.currentTimeMillis() - startMs) {
+//                            Log.d("LocalH264=====>>> ", "while");
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
@@ -190,7 +194,8 @@ public class LocalH264Activity extends Activity {
                         boolean doRender = (info.size != 0);
                         //对outputbuffer的处理完后，调用这个函数把buffer重新返回给codec类。
                         mCodec.releaseOutputBuffer(outIndex, doRender);
-                    } else {
+                    }else {
+//                        Log.i("LocalH264=====>>> ", "else");
                     }
                 }
                 mStopFlag = true;
