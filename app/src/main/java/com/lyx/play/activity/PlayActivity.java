@@ -91,7 +91,7 @@ public class PlayActivity extends Activity implements SurfaceHolder.Callback {
         mCachedThreadPool.execute(new PlayRunnable());
     }
 
-    private String url = "http://192.168.0.224:2400/api/get-video-h264";
+    private String url = "http://192.168.4.26:2400/api/get-video-h264";
 
     private ByteBuffer buffer;
     private BufferQueue<byte[]> bufferQueue;
