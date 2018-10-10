@@ -35,7 +35,10 @@ public class LocalH264Activity extends Activity {
     private MediaCodec mCodec;
     private boolean mStopFlag = false;
     private DataInputStream mInputStream;
-    private String FileName = "test.h264";
+    private String FileName = "cuc_ieschool.h264";
+//    private String FileName = "ds.h264";
+//    private String FileName = "test.h264";
+//    private String FileName = "video_data.h264";
     private static final int VIDEO_WIDTH = 1920;
     private static final int VIDEO_HEIGHT = 1080;
     private int FrameRate = 15;
